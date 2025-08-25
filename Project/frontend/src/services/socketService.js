@@ -6,7 +6,7 @@ class SocketService {
     this.callbacks = {};
   }
 
-  connect(serverUrl = "http://localhost:8080") {
+  connect(serverUrl = "https://live-polling-system-6drf.onrender.com/") {
     this.socket = io(serverUrl);
     
     this.socket.on('connect', () => {

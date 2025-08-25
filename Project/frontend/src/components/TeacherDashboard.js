@@ -11,19 +11,21 @@ const TeacherDashboard = () => {
   const { currentPoll, students, pollResults } = useSelector(state => state.poll);
   const [pastPolls, setPastPolls] = useState([]);
 
-  useEffect(() => {
-    socketService.joinAsTeacher();
-    
-    // Fetch past polls
-    fetch('/api/past-polls')
-      .then(res => res.json())
-      .then(data => setPastPolls(data))
-      .catch(err => console.error('Error fetching past polls:', err));
+ useEffect(() => {
+  socketService.joinAsTeacher();
 
-    return () => {
-      dispatch(clearError());
-    };
-  }, [dispatch]);
+  const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:8080";
+
+  // Fetch past polls
+  fetch(`${API_BASE_URL}/api/past-polls`)
+    .then(res => res.json())
+    .then(data => setPastPolls(data))
+    .catch(err => console.error('Error fetching past polls:', err));
+
+  return () => {
+    dispatch(clearError());
+  };
+}, [dispatch]);
 
   const canCreateNewPoll = () => {
     if (!currentPoll) return true;
